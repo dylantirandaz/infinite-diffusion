@@ -28,9 +28,9 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-## Corpus
+## Use Your Own Corpus
 
-The corpus and checkpoints are local and ignored by git.
+For a local text file:
 
 ```bash
 make fetch
