@@ -1,8 +1,12 @@
 # Masked Diffusion LM Lab
 
-This repo contains the current masked diffusion language model experiment over `data/infinite_jest.txt`.
+This repo contains my current Infinite Jest diffusion language model experiment.
 
-The active model path is a RoBERTa-style masked denoiser adapted into a small text diffusion model. It is diffusion-only: no causal attention mask and no next-token prediction objective.
+The active model starts from RoBERTa-large and gets posttrained on `data/infinite_jest.txt` with a masked denoising objective. It is diffusion-only: no causal attention mask and no next-token prediction objective.
+
+The Infinite Jest corpus is doing the style work. There is no DFW prompt template, style-transfer layer, or postprocessing pass. Every clean target in training comes from the book, and the model learns to reconstruct those targets from corrupted versions of the same text. That is how the run pushes the denoiser toward the book's local distribution: long clauses, bureaucratic flatness, tennis/AA/institutional vocabulary, strange compression, and the kind of sentence drift that shows up before the model falls apart.
+
+The result should be read narrowly. This is not a general language model and it is not trying to recover exact paragraphs from the book. It is a small RoBERTa-style denoiser posttrained into a text diffusion generator whose samples are conditioned by the Infinite Jest training distribution.
 
 Current checkpoint:
 
@@ -28,9 +32,9 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-## Use Your Own Corpus
+## Corpus
 
-For a local text file:
+Fetch or extract the authorized Infinite Jest text into the training path:
 
 ```bash
 make fetch
@@ -44,7 +48,7 @@ data/infinite_jest.txt
 
 ## Train
 
-The current training target continues from the previous Infinite Jest diffusion checkpoint and writes a new HF masked-diffusion checkpoint.
+The current training target posttrains the previous Infinite Jest diffusion checkpoint and writes a new HF masked-diffusion checkpoint.
 
 ```bash
 make train
@@ -62,6 +66,8 @@ loss weighting: mdlm
 self-conditioning probability: 0.25
 self-conditioning strength: 0.5
 ```
+
+During posttraining, sampled continuation spans from `data/infinite_jest.txt` are corrupted with masks and random vocabulary tokens. The model sees the corrupted span and learns to predict the original book tokens at the corrupted positions. At sampling time, a prompt is held fixed and the continuation canvas is refined in parallel over repeated denoising steps.
 
 ## Sample
 
