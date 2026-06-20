@@ -22,14 +22,6 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-## Quick Smoke Run
-
-```bash
-make demo-corpus
-make train CORPUS=data/demo.txt STEPS=50 D_MODEL=96 LAYERS=2 HEADS=4 SEQ_LEN=128 BATCH_SIZE=16
-make sample PROMPT="The system began"
-```
-
 ## Use Your Own Corpus
 
 For a local text file:
