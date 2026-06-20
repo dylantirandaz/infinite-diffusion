@@ -1,0 +1,14 @@
+[project]
+name = "diffusion-lm-lab"
+version = "0.1.0"
+description = "A small byte-level text diffusion language model lab."
+requires-python = ">=3.9"
+dependencies = [
+  "numpy>=1.26",
+  "mlx>=0.29",
+  "pypdf>=4.0",
+  "tqdm>=4.66",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

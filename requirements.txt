@@ -1,0 +1,5 @@
+numpy>=1.26
+mlx>=0.29
+pypdf>=4.0
+tqdm>=4.66
+pillow>=11.0
