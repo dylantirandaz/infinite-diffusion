@@ -57,7 +57,7 @@ HF_ABLATION_OUT ?= outputs/evals/hf-diffusion-ablations-mdlm-subs-step500.json
 HF_ABLATION_SEEDS ?= 101,10074,20047
 HF_ABLATION_SETTINGS ?= mask-refine,uniform-refine,uniform-selfcond
 
-.PHONY: setup fetch train sample gif ablations smoke
+.PHONY: setup fetch train sample gif ablations
 
 setup:
 	$(PYTHON) -m venv $(VENV)
@@ -78,7 +78,3 @@ gif:
 
 ablations:
 	$(PY) scripts/evaluate_hf_diffusion_ablations.py --model "$(HF_MASKED_MODEL)" --out "$(HF_ABLATION_OUT)" --seeds "$(HF_ABLATION_SEEDS)" --settings "$(HF_ABLATION_SETTINGS)" --new-tokens $(NEW_TOKENS) --steps $(SAMPLE_STEPS) --temperature $(TEMPERATURE) --final-temperature $(FINAL_TEMPERATURE) --top-k $(TOP_K) --unmask-schedule $(HF_UNMASK_SCHEDULE) --remask-strategy $(HF_REMASK_STRATEGY) --blank-commit-penalty 6.0 --repeat-penalty $(HF_REPEAT_PENALTY) --max-token-repeat-fraction $(HF_MAX_TOKEN_REPEAT_FRACTION) --entropy-bound $(HF_ENTROPY_BOUND) --early-stop-entropy $(HF_EARLY_STOP_ENTROPY) --piece-logit-penalty $(HF_PIECE_LOGIT_PENALTY) --self-conditioning-strength $(HF_SELF_CONDITIONING_STRENGTH)
-
-smoke:
-	$(PYTHON) -m compileall diffusion_lm scripts tests
-	$(PY) -m unittest discover -s tests

@@ -1,5 +1,8 @@
+accelerate>=0.34
 numpy>=1.26
-mlx>=0.29
-pypdf>=4.0
-tqdm>=4.66
 pillow>=11.0
+pypdf>=4.0
+safetensors>=0.4
+torch>=2.2
+tqdm>=4.66
+transformers>=4.45
